@@ -19,7 +19,10 @@ export const isAuthError = (stderr: string): boolean => {
 /** リポジトリを shallow clone する。失敗時は認証判定付きで例外を投げる。 */
 export const cloneRepo = async (gitUrl: string, destDir: string): Promise<void> => {
   try {
-    await execFileAsync('git', ['clone', '--depth', '1', gitUrl, destDir]);
+    await execFileAsync('git', ['clone', '--depth', '1', gitUrl, destDir], {
+      timeout: 120_000,
+      env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
+    });
   } catch (error) {
     const stderr = (error as { stderr?: string }).stderr ?? '';
     if (isAuthError(stderr)) {

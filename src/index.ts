@@ -10,11 +10,14 @@ import { runChunk } from './repomixRunner.js';
 import { BINARY_EXCLUDES } from './constants.js';
 
 const main = async (): Promise<void> => {
-  const opts = parseArgs(process.argv.slice(2));
-  const identity = parseGitUrl(opts.gitUrl);
+  let opts: ReturnType<typeof parseArgs> | undefined;
+  let identity: ReturnType<typeof parseGitUrl> | undefined;
 
   let tmpDir: string | undefined;
   try {
+    opts = parseArgs(process.argv.slice(2));
+    identity = parseGitUrl(opts.gitUrl);
+
     tmpDir = await mkdtemp(path.join(os.tmpdir(), 'repomix-nlm-'));
     const repoDir = path.join(tmpDir, 'repo');
 
@@ -45,6 +48,7 @@ const main = async (): Promise<void> => {
         files: chunk.files,
         excludes: BINARY_EXCLUDES,
         compress: opts.compress,
+        enableSecurityCheck: opts.enableSecurityCheck,
       });
     }
 
@@ -53,8 +57,12 @@ const main = async (): Promise<void> => {
     console.error(`Error: ${(error as Error).message}`);
     process.exitCode = 1;
   } finally {
-    if (tmpDir && !opts.keepTmp) {
-      await rm(tmpDir, { recursive: true, force: true });
+    if (tmpDir && opts && !opts.keepTmp) {
+      try {
+        await rm(tmpDir, { recursive: true, force: true });
+      } catch (cleanupError) {
+        console.warn(`Warning: 一時ディレクトリの削除に失敗しました: ${(cleanupError as Error).message}`);
+      }
     } else if (tmpDir) {
       console.log(`(--keep-tmp) tmp retained at: ${tmpDir}`);
     }

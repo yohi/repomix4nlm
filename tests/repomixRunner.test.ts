@@ -28,6 +28,21 @@ describe('buildChunkConfig', () => {
     const config = buildChunkConfig({ ...baseOpts, compress: true });
     expect(config.output.compress).toBe(true);
   });
+
+  it('セキュリティスキャンはデフォルトで有効', () => {
+    const config = buildChunkConfig(baseOpts);
+    expect(config.security.enableSecurityCheck).toBe(true);
+  });
+
+  it('enableSecurityCheck を無効化できる', () => {
+    const config = buildChunkConfig({ ...baseOpts, enableSecurityCheck: false });
+    expect(config.security.enableSecurityCheck).toBe(false);
+  });
+
+  it('enableSecurityCheck を明示的に有効化できる', () => {
+    const config = buildChunkConfig({ ...baseOpts, enableSecurityCheck: true });
+    expect(config.security.enableSecurityCheck).toBe(true);
+  });
 });
 
 describe('runChunk', () => {

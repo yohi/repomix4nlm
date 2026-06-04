@@ -14,6 +14,8 @@ export interface RunChunkOptions {
   excludes: string[];
   /** Tree-sitter 圧縮の有無。 */
   compress: boolean;
+  /** セキュリティスキャンの有無（デフォルト true）。 */
+  enableSecurityCheck?: boolean;
 }
 
 /** チャンク用のマージ済み Repomix 設定を構築する。 */
@@ -36,7 +38,10 @@ export const buildChunkConfig = (opts: RunChunkOptions): ReturnType<typeof merge
         useGitignore: true,
       },
       security: {
-        enableSecurityCheck: false,
+        enableSecurityCheck:
+          typeof opts.enableSecurityCheck === 'boolean'
+            ? opts.enableSecurityCheck
+            : true,
       },
     },
     {},
