@@ -1,0 +1,29 @@
+{
+  "name": "repomix-nlm-splitter",
+  "version": "0.1.0",
+  "description": "Split large repositories into NotebookLM-sized Repomix XML .txt chunks",
+  "type": "module",
+  "bin": {
+    "repomix-nlm": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "git-url-parse": "^16.1.0",
+    "repomix": "^1.14.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

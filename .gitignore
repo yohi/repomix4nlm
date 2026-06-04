@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+# Repomix リファレンスクローン（本ツールの依存ではない）
+repomix/
+# 生成された出力ディレクトリ
+*-*-*-20*/
