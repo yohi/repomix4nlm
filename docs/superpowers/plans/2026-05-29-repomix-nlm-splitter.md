@@ -98,7 +98,7 @@ export default defineConfig({
 
 - [ ] **Step 4: `.gitignore` を作成**
 
-```
+```gitignore
 node_modules/
 dist/
 *.log

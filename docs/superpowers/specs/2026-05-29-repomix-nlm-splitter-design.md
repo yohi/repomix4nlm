@@ -23,7 +23,7 @@
 
 ## 2. アーキテクチャ概要とデータフロー
 
-```
+```text
 入力: <git-url> [--threshold 360000] [--out-dir .] [--compress] [--keep-tmp]
    │
    ▼
@@ -74,7 +74,7 @@ Repomix の `pack(rootDirs, config, progressCallback, overrideDeps, explicitFile
 
 ### 3.2 貪欲ビンパッキング
 
-```
+```text
 THRESHOLD = 360,000 語（= 400,000 の 90%、XMLオーバーヘッド安全マージン。--threshold で変更可）
 
 current = { files: [], words: 0 }
@@ -115,7 +115,7 @@ flush(current)                       # 最後のチャンク
 
 ### 3.4 除外拡張子（`ignore.customPatterns` へ注入）
 
-```
+```text
 画像/アイコン: svg, png, jpg, jpeg, gif, ico, webp, bmp
 ドキュメント: pdf
 アーカイブ:   zip, tar, gz, tar.gz, tgz, rar, 7z
@@ -198,8 +198,8 @@ Options:
 ```
 repomix7nlm/
 ├── .devcontainer/
-│   ├── devcontainer.json     # Node 20 + Git, postCreate: npm ci
-│   └── Dockerfile            # node:20-bookworm + git
+│   ├── devcontainer.json     # Node 22 + Git, postCreate: npm install
+│   └── Dockerfile            # node:22-bookworm + git
 ├── src/
 │   ├── index.ts              # CLI / Git制御 / tmp ライフサイクル
 │   ├── parser.ts             # URL解析・出力dir名・日付（純粋関数）
