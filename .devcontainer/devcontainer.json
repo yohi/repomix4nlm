@@ -1,0 +1,13 @@
+{
+  "name": "repomix-nlm-splitter",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint"]
+    }
+  },
+  "remoteUser": "node"
+}
