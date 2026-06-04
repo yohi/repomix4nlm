@@ -1,3 +1,7 @@
+import path from 'node:path';
+import { readFile as fsReadFile } from 'node:fs/promises';
+import { mergeConfigs, searchFiles as repomixSearchFiles, sortPaths } from 'repomix';
+
 export interface FileEntry {
   /** rootDir 相対・posix 区切りのパス。 */
   relPath: string;
@@ -113,4 +117,51 @@ export const nameChunks = (groups: FileEntry[][]): Chunk[] => {
     });
   }
   return result;
+};
+
+export interface BuildChunksDeps {
+  searchFiles: (
+    rootDir: string,
+    config: ReturnType<typeof mergeConfigs>,
+    explicitFiles?: string[],
+  ) => Promise<{ filePaths: string[]; emptyDirPaths: string[] }>;
+  readFile: (absPath: string) => Promise<string>;
+}
+
+export interface BuildChunksOptions {
+  rootDir: string;
+  threshold: number;
+  excludes: string[];
+  compress: boolean;
+  deps?: Partial<BuildChunksDeps>;
+}
+
+/** rootDir を走査し、除外を適用し、語数ベースでチャンク化する。 */
+export const buildChunks = async (opts: BuildChunksOptions): Promise<Chunk[]> => {
+  const deps: BuildChunksDeps = {
+    searchFiles: repomixSearchFiles,
+    readFile: (p) => fsReadFile(p, 'utf-8'),
+    ...opts.deps,
+  };
+
+  // 列挙用 config（除外パターン継承）。pack 時の config とは別建てで OK。
+  const searchConfig = mergeConfigs(opts.rootDir, {
+    ignore: {
+      customPatterns: opts.excludes,
+      useDefaultPatterns: true,
+      useGitignore: true,
+    },
+  }, {});
+
+  const { filePaths } = await deps.searchFiles(opts.rootDir, searchConfig);
+  const sorted = sortPaths(filePaths);
+
+  const entries: FileEntry[] = [];
+  for (const relPath of sorted) {
+    const text = await deps.readFile(path.resolve(opts.rootDir, relPath));
+    entries.push({ relPath, words: countWords(text) });
+  }
+
+  const groups = binPack(entries, opts.threshold);
+  return nameChunks(groups);
 };

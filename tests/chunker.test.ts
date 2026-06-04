@@ -85,3 +85,42 @@ describe('nameChunks', () => {
     ]);
   });
 });
+
+import { buildChunks } from '../src/chunker.js';
+
+describe('buildChunks', () => {
+  it('searchFiles の結果を語数集計しソートしてチャンク化する', async () => {
+    const fakeSearch = async () => ({ filePaths: ['src/b.ts', 'src/a.ts'], emptyDirPaths: [] });
+    const fakeRead = async (abs: string) =>
+      abs.endsWith('a.ts') ? 'one two three' : 'four five';
+
+    const chunks = await buildChunks({
+      rootDir: '/tmp/repo',
+      threshold: 1000,
+      excludes: ['**/*.svg'],
+      compress: false,
+      deps: { searchFiles: fakeSearch, readFile: fakeRead },
+    });
+
+    expect(chunks).toHaveLength(1);
+    // sortPaths により a.ts が b.ts より前
+    expect(chunks[0].files).toEqual(['src/a.ts', 'src/b.ts']);
+    expect(chunks[0].words).toBe(5); // 3 + 2
+    expect(chunks[0].name).toBe('src');
+  });
+
+  it('閾値を超えると複数チャンクに分割する', async () => {
+    const fakeSearch = async () => ({ filePaths: ['src/a.ts', 'src/b.ts'], emptyDirPaths: [] });
+    const fakeRead = async () => 'w '.repeat(60); // 60 語
+
+    const chunks = await buildChunks({
+      rootDir: '/tmp/repo',
+      threshold: 100,
+      excludes: [],
+      compress: false,
+      deps: { searchFiles: fakeSearch, readFile: fakeRead },
+    });
+
+    expect(chunks).toHaveLength(2);
+  });
+});
