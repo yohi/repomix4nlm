@@ -43,7 +43,7 @@ jobs:
           path: dist/
         if: ${{ steps.release.outputs.release_created }}
       - name: Publish to GitHub Packages
-        run: npm publish --ignore-scripts
+        run: npm publish --ignore-scripts --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ steps.release.outputs.release_created }}
