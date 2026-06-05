@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/yohi/repomix4nlm/compare/v1.0.0...v1.0.1) (2026-06-05)
+
+
+### Bug Fixes
+
+* explicitFiles を絶対パスに変換して正しくパッキングする ([edd66eb](https://github.com/yohi/repomix4nlm/commit/edd66ebaf6e2dcdb9aef696b9545c2eccab9c16d))
+* explicitFiles を絶対パスに変換して正しくパッキングする ([414f3a6](https://github.com/yohi/repomix4nlm/commit/414f3a629267a5bb6948861902f8d694a2d54b32))
+
 ## 1.0.0 (2026-06-05)
 
 
