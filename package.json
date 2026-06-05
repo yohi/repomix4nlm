@@ -1,6 +1,6 @@
 {
   "name": "@yohi/repomix4nlm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Split large repositories into NotebookLM-sized Repomix XML .txt chunks",
   "type": "module",
   "repository": {
