@@ -16,7 +16,7 @@ describe('buildChunkConfig', () => {
     const config = buildChunkConfig(baseOpts);
     expect(config.output.style).toBe('xml');
     expect(config.output.filePath).toBe(
-      path.join('/out/owner-repo-main-20260529', 'src-core.txt'),
+      path.resolve('/out/owner-repo-main-20260529', 'src-core.txt'),
     );
     expect(config.output.filePath.endsWith('.txt')).toBe(true);
     expect(config.ignore.customPatterns).toContain('**/*.svg');
@@ -54,6 +54,6 @@ describe('runChunk', () => {
     const [rootDirs, config, , , explicitFiles] = packMock.mock.calls[0];
     expect(rootDirs).toEqual(['/tmp/repo']);
     expect(config.output.style).toBe('xml');
-    expect(explicitFiles).toEqual(['src/core/a.ts', 'src/core/b.ts']);
+    expect(explicitFiles).toEqual(['/tmp/repo/src/core/a.ts', '/tmp/repo/src/core/b.ts']);
   });
 });
