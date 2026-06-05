@@ -41,7 +41,7 @@ npx tsx src/index.ts <git-url> [options]
 node dist/index.js <git-url> [options]
 
 # インストールしたパッケージとして実行する場合
-# npx @yohi/repomix4nlm <git-url> [options]
+npx @yohi/repomix4nlm <git-url> [options]
 ```
 
 ### コマンドラインオプション
