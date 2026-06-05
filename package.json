@@ -1,10 +1,22 @@
 {
-  "name": "repomix-nlm-splitter",
+  "name": "@yohi/repomix4nlm",
   "version": "0.1.0",
   "description": "Split large repositories into NotebookLM-sized Repomix XML .txt chunks",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yohi/repomix4nlm.git"
+  },
   "bin": {
     "repomix-nlm": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",

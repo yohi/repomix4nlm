@@ -1,4 +1,4 @@
-# Repomix NotebookLM 分割ラッパー (`repomix-nlm-splitter`)
+# Repomix NotebookLM 分割ラッパー (`repomix4nlm`)
 
 大規模なGitリポジトリを自動的に Clone し、NotebookLM の単語数制限（約 500,000 語）の安全圏に収まるよう、ディレクトリの階層構造を尊重してインテリジェントにチャンク分割し、Repomix の **XML スタイル** で **`.txt` ファイル** として構造化出力する CLI ラッパーツールです。
 
@@ -31,12 +31,17 @@ npm run build
 
 ### 基本実行
 
+ローカルでビルドして実行する、あるいは `npx` を用いて直接実行できます。
+
 ```bash
 # ソースから直接実行（開発用）
 npx tsx src/index.ts <git-url> [options]
 
 # ビルド済みバイナリを実行
 node dist/index.js <git-url> [options]
+
+# インストールしたパッケージとして実行する場合
+# npx @yohi/repomix4nlm <git-url> [options]
 ```
 
 ### コマンドラインオプション
@@ -49,10 +54,36 @@ node dist/index.js <git-url> [options]
 | `--keep-tmp` | デバッグ用に、処理終了後も一時クローンディレクトリを削除せずに保持する | OFF |
 | `--no-enable-security` | 実行時のセキュリティスキャンを無効化する | スキャン有効 |
 
-### 実行例
+### オプション利用例
 
+#### 1. 出力先と上限語数の指定（基本）
+語数上限を `300,000語` に制限し、出力先を `./output` ディレクトリに指定して実行します。
 ```bash
-node dist/index.js https://github.com/yamadashy/repomix.git --out-dir ./output --threshold 300000
+node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --threshold 300000
+```
+
+#### 2. Tree-sitter 圧縮の有効化 (`--compress`)
+大規模リポジトリなどでコードの構造（シグネチャ）のみを抽出し、語数を大幅に削減してパッキングしたい場合に指定します。
+```bash
+node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --compress
+```
+
+#### 3. セキュリティスキャンを無効化 (`--no-enable-security`)
+信頼できるプライベートリポジトリなどで、セキュリティスキャンのオーバーヘッドを回避して高速に処理したい場合に指定します。
+```bash
+node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --no-enable-security
+```
+
+#### 4. デバッグ用：一時ファイルを保持 (`--keep-tmp`)
+クローンしたリポジトリの内容やチャンクパッキング処理の途中経過をデバッグするために、実行後も一時クローンディレクトリを削除せず残します。
+```bash
+node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --keep-tmp
+```
+
+#### 5. 複数オプションの組み合わせ
+上限語数を `250,000語` にしつつ、Tree-sitter 圧縮を有効にし、セキュリティチェックをスキップする例です。
+```bash
+node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --threshold 250000 --compress --no-enable-security
 ```
 
 実行が完了すると、指定した出力ディレクトリに `{owner}-{repo}-{branch}-{YYYYMMDD}` 形式のディレクトリが生成され、その中に `src-core.txt` や `src-utils.txt` などの XML 形式ファイルが出力されます。
