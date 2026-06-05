@@ -16,7 +16,7 @@ describe('buildChunkConfig', () => {
     const config = buildChunkConfig(baseOpts);
     expect(config.output.style).toBe('xml');
     expect(config.output.filePath).toBe(
-      path.join('/out/owner-repo-main-20260529', 'src-core.txt'),
+      path.resolve('/out/owner-repo-main-20260529', 'src-core.txt'),
     );
     expect(config.output.filePath.endsWith('.txt')).toBe(true);
     expect(config.ignore.customPatterns).toContain('**/*.svg');
