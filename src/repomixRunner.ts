@@ -25,7 +25,7 @@ export const buildChunkConfig = (opts: RunChunkOptions): ReturnType<typeof merge
     {
       output: {
         // filePath を明示指定 → xml スタイルでも .txt が維持される
-        filePath: path.join(opts.outDir, `${opts.chunkName}.txt`),
+        filePath: path.resolve(opts.outDir, `${opts.chunkName}.txt`),
         style: 'xml',
         fileSummary: true,
         directoryStructure: true,
@@ -52,5 +52,6 @@ type PackFn = typeof pack;
 /** 1チャンクを XML スタイルの .txt として書き出す。 */
 export const runChunk = async (opts: RunChunkOptions, packFn: PackFn = pack): Promise<void> => {
   const config = buildChunkConfig(opts);
-  await packFn([opts.rootDir], config, () => {}, {}, opts.files);
+  const absoluteFiles = opts.files.map((f) => path.resolve(opts.rootDir, f));
+  await packFn([opts.rootDir], config, () => {}, {}, absoluteFiles);
 };

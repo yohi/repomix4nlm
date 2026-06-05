@@ -54,6 +54,6 @@ describe('runChunk', () => {
     const [rootDirs, config, , , explicitFiles] = packMock.mock.calls[0];
     expect(rootDirs).toEqual(['/tmp/repo']);
     expect(config.output.style).toBe('xml');
-    expect(explicitFiles).toEqual(['src/core/a.ts', 'src/core/b.ts']);
+    expect(explicitFiles).toEqual(['/tmp/repo/src/core/a.ts', '/tmp/repo/src/core/b.ts']);
   });
 });
