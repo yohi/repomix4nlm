@@ -31,5 +31,5 @@ Agents must use the following commands to build, test, and typecheck code change
 
 ## Progressive Disclosure & Code Quality
 
-- **Specifications**: For detailed design decisions, greedy bin-packing thresholds, file excludes, naming rules (such as `-chunkN` suffixes), and Git lifecycle/error handling, refer to [SPEC.md](file:///home/y_ohi/program/private/repomix7nlm/SPEC.md).
+- **Specifications**: For detailed design decisions, greedy bin-packing thresholds, file excludes, naming rules (such as `-chunkN` suffixes), and Git lifecycle/error handling, refer to [SPEC.md](./SPEC.md).
 - **Style Guidelines**: Code style and typing are enforced programmatically. Use `npm run typecheck` and `npm test` to identify style or compile issues. Do not write extensive manual formatting rules here.
