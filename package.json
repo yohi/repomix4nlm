@@ -8,7 +8,8 @@
     "url": "git+https://github.com/yohi/repomix4nlm.git"
   },
   "bin": {
-    "repomix-nlm": "./dist/index.js"
+    "repomix-nlm": "./dist/index.js",
+    "repomix4nlm": "./dist/index.js"
   },
   "files": [
     "dist",
