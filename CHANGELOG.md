@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/yohi/repomix4nlm/compare/v1.0.1...v1.0.2) (2026-06-06)
+
+
+### Bug Fixes
+
+* **bin:** npxでの起動エラーを解決するためパッケージ名のエイリアスを追加 ([dc81678](https://github.com/yohi/repomix4nlm/commit/dc81678f746810632026c94e506a4d0c4b4e049e))
+* **bin:** npxでの起動エラーを解決するためパッケージ名のエイリアスを追加 ([0a06c62](https://github.com/yohi/repomix4nlm/commit/0a06c622d8c1bc566f6d5039095b9a7485cac90d))
+
 ## [1.0.1](https://github.com/yohi/repomix4nlm/compare/v1.0.0...v1.0.1) (2026-06-05)
 
 
