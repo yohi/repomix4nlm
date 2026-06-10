@@ -22,7 +22,7 @@ const main = async (): Promise<void> => {
     const repoDir = path.join(tmpDir, 'repo');
 
     console.log(`Cloning ${opts.gitUrl} ...`);
-    await cloneRepo(opts.gitUrl, repoDir);
+    await cloneRepo(opts.gitUrl, repoDir, opts.branch);
 
     const branch = await getCurrentBranch(repoDir);
     const outDirName = buildOutputDirName(identity, branch, new Date());

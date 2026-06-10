@@ -2,6 +2,7 @@ import { DEFAULT_THRESHOLD } from './constants.js';
 
 export interface CliOptions {
   gitUrl: string;
+  branch: string | undefined;
   threshold: number;
   outDir: string;
   compress: boolean;
@@ -12,6 +13,7 @@ export interface CliOptions {
 /** argv（実行ファイル/スクリプト名を除いた配列）を解釈する。 */
 export const parseArgs = (argv: string[]): CliOptions => {
   let gitUrl: string | undefined;
+  let branch: string | undefined;
   let threshold = DEFAULT_THRESHOLD;
   let outDir = process.cwd();
   let compress = false;
@@ -21,6 +23,14 @@ export const parseArgs = (argv: string[]): CliOptions => {
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     switch (arg) {
+      case '--branch': {
+        const value = argv[++i];
+        if (!value || value.startsWith('--')) {
+          throw new Error(`--branch にはブランチ名を指定してください: ${value ?? '(値なし)'}`);
+        }
+        branch = value;
+        break;
+      }
       case '--threshold': {
         const value = argv[++i];
         const n = Number(value);
@@ -63,8 +73,8 @@ export const parseArgs = (argv: string[]): CliOptions => {
   }
 
   if (gitUrl === undefined) {
-    throw new Error('Git URL を指定してください。使用例: repomix-nlm <git-url> [--threshold n] [--out-dir path] [--compress] [--keep-tmp]');
+    throw new Error('Git URL を指定してください。使用例: repomix-nlm <git-url> [--branch name] [--threshold n] [--out-dir path] [--compress] [--keep-tmp]');
   }
 
-  return { gitUrl, threshold, outDir, compress, keepTmp, enableSecurityCheck };
+  return { gitUrl, branch, threshold, outDir, compress, keepTmp, enableSecurityCheck };
 };

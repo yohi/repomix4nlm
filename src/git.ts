@@ -16,10 +16,16 @@ export const isAuthError = (stderr: string): boolean => {
   return patterns.some((re) => re.test(stderr));
 };
 
-/** リポジトリを shallow clone する。失敗時は認証判定付きで例外を投げる。 */
-export const cloneRepo = async (gitUrl: string, destDir: string): Promise<void> => {
+/** リポジトリを shallow clone する。branch が指定された場合はそのブランチを clone する。失敗時は認証判定付きで例外を投げる。 */
+export const cloneRepo = async (gitUrl: string, destDir: string, branch?: string): Promise<void> => {
+  const args = ['clone', '--depth', '1'];
+  if (branch) {
+    args.push('--branch', branch);
+  }
+  args.push(gitUrl, destDir);
+
   try {
-    await execFileAsync('git', ['clone', '--depth', '1', gitUrl, destDir], {
+    await execFileAsync('git', args, {
       timeout: 120_000,
       env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
     });
