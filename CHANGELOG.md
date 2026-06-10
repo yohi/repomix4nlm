@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/yohi/repomix4nlm/compare/v1.0.2...v1.1.0) (2026-06-10)
+
+
+### Features
+
+* --branch オプションによるブランチ指定機能を追加 ([166bfa2](https://github.com/yohi/repomix4nlm/commit/166bfa260319ba7ba8e2483da5dd6fc89697cd31))
+* --branch オプションによるブランチ指定機能を追加 ([8c8cd1e](https://github.com/yohi/repomix4nlm/commit/8c8cd1e4de8e6dc2543bfc84a77af652544994b3))
+
 ## [1.0.2](https://github.com/yohi/repomix4nlm/compare/v1.0.1...v1.0.2) (2026-06-06)
 
 
