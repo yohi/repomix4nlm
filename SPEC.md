@@ -29,7 +29,7 @@
 入力された Git URL から最終的なファイル出力までの処理の流れは以下の通りです。
 
 ```text
-入力: <git-url> [--threshold 360000] [--out-dir .] [--compress] [--keep-tmp] [--no-enable-security]
+入力: <git-url> [--branch name] [--threshold 360000] [--out-dir .] [--compress] [--keep-tmp] [--no-enable-security]
    │
    ▼
 [1] cli.ts       ─ 引数パース（各オプション、Git URLの抽出と検証）
@@ -38,7 +38,7 @@
 [2] parser.ts    ─ Git URL解析 → owner / repo の抽出
    │
    ▼
-[3] git.ts       ─ os.tmpdir() 内に一意な temporary ディレクトリ作成 → git clone（--depth 1）
+[3] git.ts       ─ os.tmpdir() 内に一意な temporary ディレクトリ作成 → git clone（--depth 1 [--branch name]）
    │             ─ git rev-parse --abbrev-ref HEAD によるカレントブランチ名取得
    │             ─ 出力ディレクトリ名確定: {owner}-{repo}-{branch}-{YYYYMMDD}
    │
