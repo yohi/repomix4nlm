@@ -48,6 +48,7 @@ npx @yohi/repomix4nlm <git-url> [options]
 
 | オプション | 説明 | デフォルト値 |
 |---|---|---|
+| `--branch <name>` | clone するブランチ名を指定する | リポジトリのデフォルトブランチ |
 | `--threshold <n>` | チャンクの実効語数上限（空白/改行 split 基準） | `360000` |
 | `--out-dir <path>` | 出力ディレクトリの保存先となる親ディレクトリ | カレントディレクトリ (`process.cwd()`) |
 | `--compress` | Tree-sitter を用いてシグネチャのみ抽出し、コードの語数を削減する | OFF |
@@ -62,28 +63,34 @@ npx @yohi/repomix4nlm <git-url> [options]
 node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --threshold 300000
 ```
 
-#### 2. Tree-sitter 圧縮の有効化 (`--compress`)
+#### 2. ブランチの指定 (`--branch`)
+デフォルトブランチ以外のブランチを解析したい場合に指定します。
+```bash
+node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --branch develop
+```
+
+#### 3. Tree-sitter 圧縮の有効化 (`--compress`)
 大規模リポジトリなどでコードの構造（シグネチャ）のみを抽出し、語数を大幅に削減してパッキングしたい場合に指定します。
 ```bash
 node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --compress
 ```
 
-#### 3. セキュリティスキャンを無効化 (`--no-enable-security`)
+#### 4. セキュリティスキャンを無効化 (`--no-enable-security`)
 信頼できるプライベートリポジトリなどで、セキュリティスキャンのオーバーヘッドを回避して高速に処理したい場合に指定します。
 ```bash
 node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --no-enable-security
 ```
 
-#### 4. デバッグ用：一時ファイルを保持 (`--keep-tmp`)
+#### 5. デバッグ用：一時ファイルを保持 (`--keep-tmp`)
 クローンしたリポジトリの内容やチャンクパッキング処理の途中経過をデバッグするために、実行後も一時クローンディレクトリを削除せず残します。
 ```bash
 node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --keep-tmp
 ```
 
-#### 5. 複数オプションの組み合わせ
-上限語数を `250,000語` にしつつ、Tree-sitter 圧縮を有効にし、セキュリティチェックをスキップする例です。
+#### 6. 複数オプションの組み合わせ
+`develop` ブランチを対象に、上限語数を `250,000語` にしつつ、Tree-sitter 圧縮を有効にし、セキュリティチェックをスキップする例です。
 ```bash
-node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --threshold 250000 --compress --no-enable-security
+node dist/index.js https://github.com/yohi/repomix4nlm.git --out-dir ./output --branch develop --threshold 250000 --compress --no-enable-security
 ```
 
 実行が完了すると、指定した出力ディレクトリに `{owner}-{repo}-{branch}-{YYYYMMDD}` 形式のディレクトリが生成され、その中に `src-core.txt` や `src-utils.txt` などの XML 形式ファイルが出力されます。
